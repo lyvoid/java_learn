@@ -52,7 +52,7 @@ public class BinTreeLearn<T> {
             rChild.prevTravel();
     }
 
-    public void prevTravelByIter() {
+    public void depthTravelByIter() {
         Stack<BinTreeLearn<T>> stack = new Stack<>();
         stack.push(this);
         while (!stack.isEmpty()) {
@@ -65,7 +65,7 @@ public class BinTreeLearn<T> {
         }
     }
     
-    public void prevTraveByIter2(){
+    public void prevTraveByIter(){
         Stack<BinTreeLearn<T>> stack = new Stack<>();
         visitAloneLeft(this, stack);
         while (!stack.isEmpty()) {
