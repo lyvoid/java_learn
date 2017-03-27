@@ -13,6 +13,7 @@ public class Test {
         test.insert(3, "123");
         test.insert(5, "123");
         test.insert(6, "123");
+        test.remove(6);
         test.midTravel(new Function<BinNode<Integer,String>, Boolean>() {
             
             @Override

@@ -19,6 +19,11 @@ public class BST<K extends Comparable<K>, V> implements IBinTree<K, V> {
             return node.value;
     }
 
+    /**
+     * 
+     * @param key
+     * @return return node if key input find in the tree,else return null
+     */
     private BinNode<K, V> searchNode(K key) {
         hot = root;
         BinNode<K, V> currentNode = root.leftChild;
@@ -65,43 +70,97 @@ public class BST<K extends Comparable<K>, V> implements IBinTree<K, V> {
 
     @Override
     public boolean remove(K key) {
-        // TODO Auto-generated method stub
-        return false;
+        BinNode<K, V> node = searchNode(key);
+        // if key is not in the tree
+        if (node == null)
+            return false;
+        remove(node);
+        return true;
     }
     
-    private BinNode<K, V> succeed(){
-        return null;
+    private void remove(BinNode<K, V> node){
+        if (node.leftChild == null) {
+            // if node only have a right child(include null)
+            replaceParent(node, node.rightChild);
+        } else if (node.rightChild == null) {
+            // if node only have a left child
+            replaceParent(node, node.leftChild);
+        } else {
+            // if node have both right and left child
+            BinNode<K, V> successor = succeed(node);
+            exchange(node, successor);
+            remove(successor);
+        }
+    }
+
+    private void exchange(BinNode<K, V> node1, BinNode<K, V> node2) {
+        K keyTmp = node1.key;
+        V valueTmp = node1.value;
+        node1.key = node2.key;
+        node1.value = node2.value;
+        node2.key = keyTmp;
+        node2.value = valueTmp;
+    }
+
+    /**
+     * replace parent node by its child node
+     * 
+     * @param parent
+     * @param child
+     */
+    private void replaceParent(BinNode<K, V> parent, BinNode<K, V> child) {
+        if (parent.parent.leftChild == parent) {
+            parent.parent.leftChild = child;
+        } else if (parent.parent.rightChild == parent) {
+            parent.parent.rightChild = child;
+        }
+        if (child != null)
+            child.parent = parent.parent;
+    }
+
+    /**
+     * 
+     * @param node
+     * @return immediate successor of node
+     */
+    private BinNode<K, V> succeed(BinNode<K, V> node) {
+        node = node.rightChild;
+        while (node.leftChild != null)
+            node = node.leftChild;
+        return node;
+
     }
 
     public void midTravel(Function<BinNode<K, V>, Boolean> visit) {
         midTravelByIter(root.leftChild, visit);
     }
 
-//    private void midTravel(BinNode<K, V> root, Function<BinNode<K, V>, Boolean> visit) {
-//        if (root == null)
-//            return;
-//        if (root.leftChild != null)
-//            midTravel(root.leftChild, visit);
-//        visit.apply(root);
-//        if (root.rightChild != null)
-//            midTravel(root.rightChild, visit);
-//    }
+    // private void midTravel(BinNode<K, V> root, Function<BinNode<K, V>,
+    // Boolean> visit) {
+    // if (root == null)
+    // return;
+    // if (root.leftChild != null)
+    // midTravel(root.leftChild, visit);
+    // visit.apply(root);
+    // if (root.rightChild != null)
+    // midTravel(root.rightChild, visit);
+    // }
 
     private void midTravelByIter(BinNode<K, V> root, Function<BinNode<K, V>, Boolean> visit) {
         BinNode<K, V> currentNode = root;
         Stack<BinNode<K, V>> stack = new Stack<>();
-        while (true){
+        while (true) {
             leftStack(currentNode, stack);
             if (stack.isEmpty())
                 break;
-            visit.apply((currentNode=stack.pop()));
+            visit.apply((currentNode = stack.pop()));
             currentNode = currentNode.rightChild;
         }
     }
-    
-    private void leftStack(BinNode<K, V> node, Stack<BinNode<K, V>> stack){
+
+    private void leftStack(BinNode<K, V> node, Stack<BinNode<K, V>> stack) {
         BinNode<K, V> currentNode = node;
-        while (currentNode != null){
+        while (currentNode != null) {
             stack.push(currentNode);
             currentNode = currentNode.leftChild;
         }
