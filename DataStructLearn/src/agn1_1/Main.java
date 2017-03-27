@@ -2,6 +2,11 @@ package agn1_1;
 
 import java.util.Scanner;
 
+/**
+ * calculate number count in a sorted sequence between two numbers
+ * @author yang
+ *
+ */
 public class Main {
     public static void main(String[] args) {
         // handle input information

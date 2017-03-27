@@ -18,13 +18,16 @@ public class BinNode<K, V> {
 
     public void insertLeft(K key, V value) {
         this.leftChild = new BinNode<K, V>(key, value);
+        this.leftChild.parent = this;
     }
 
     public void insertRight(K key, V value) {
         this.rightChild = new BinNode<K, V>(key, value);
+        this.rightChild.parent = this;
     }
-    
-    public void visit(){
+
+    public void visit() {
         System.out.println(String.format("%s: %s", key, value));
     }
+
 }

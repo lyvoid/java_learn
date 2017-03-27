@@ -2,6 +2,12 @@ package agn1_2;
 
 import java.util.Scanner;
 
+/**
+ * zuma
+ * 
+ * @author yang
+ *
+ */
 public class Main {
 
     public static void main(String[] args) {
