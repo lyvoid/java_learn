@@ -13,14 +13,17 @@ public class Test {
         test.insert(3, "123");
         test.insert(5, "123");
         test.insert(6, "123");
-        test.remove(6);
-        test.midTravel(new Function<BinNode<Integer,String>, Boolean>() {
-            
-            @Override
-            public Boolean apply(BinNode<Integer, String> t) {
-                System.out.println(String.format("%s: %s", t.key, t.value));
-                return true;
-            }
-        });
+        test.remove(5);
+//        test.midTravel(new Function<BinNode<Integer,String>, Boolean>() {
+//            
+//            @Override
+//            public Boolean apply(BinNode<Integer, String> t) {
+//                System.out.println();
+//                return true;
+//            }
+//        });
+        for (BinNode<Integer, String> binNode : test) {
+            System.out.println(String.format("%s: %s", binNode.key, binNode.value));
+        }
     }
 }

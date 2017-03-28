@@ -1,6 +1,6 @@
 package yang;
 
-public interface IBinTree<k, v> {
+public interface IBinTree<K, V> {
 
     /**
      * search the value of key in a binary tree, return the value of first node
@@ -10,7 +10,7 @@ public interface IBinTree<k, v> {
      *            of node
      * @return value of key
      */
-    public v search(k key);
+    public V search(K key);
 
     /**
      * 
@@ -18,7 +18,7 @@ public interface IBinTree<k, v> {
      * @param value
      * @return whether the node have not been replace by new node
      */
-    public boolean insert(k key, v value);
+    public boolean insert(K key, V value);
 
     /**
      * remove a node from the tree by key. if the key not exist before, return false
@@ -27,6 +27,6 @@ public interface IBinTree<k, v> {
      * @param key
      * @return whether the key exist before
      */
-    public boolean remove(k key);
+    public boolean remove(K key);
 
 }

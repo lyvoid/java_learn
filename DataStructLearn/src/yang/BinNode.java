@@ -1,5 +1,12 @@
 package yang;
 
+/**
+ * 
+ * @author yang
+ *
+ * @param <K>
+ * @param <V>
+ */
 public class BinNode<K, V> {
     public K key;
     public V value;

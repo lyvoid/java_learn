@@ -1,8 +1,16 @@
 package yang;
 
+import java.util.Iterator;
 import java.util.function.Function;
 
-public class BST<K extends Comparable<K>, V> implements IBinTree<K, V> {
+/**
+ * 
+ * @author yang
+ *
+ * @param <K>
+ * @param <V>
+ */
+public class BST<K extends Comparable<K>, V> implements IBinTree<K, V>, Iterable<BinNode<K, V>> {
     private BinNode<K, V> root;
     private BinNode<K, V> hot;
 
@@ -165,5 +173,33 @@ public class BST<K extends Comparable<K>, V> implements IBinTree<K, V> {
             currentNode = currentNode.leftChild;
         }
     }
+
+    @Override
+    public Iterator<BinNode<K, V>> iterator() {
+        return new Iterator<BinNode<K,V>>() {
+
+            Stack<BinNode<K, V>> stack = new Stack<>();
+            BinNode<K, V> currentNode = root.leftChild;
+            {
+                leftStack(currentNode, stack);
+            }
+            
+            @Override
+            public boolean hasNext() {
+                if (stack.isEmpty())
+                    return false;
+                return true;
+            }
+
+            @Override
+            public BinNode<K, V> next() {
+                BinNode<K, V> node = stack.pop();
+                leftStack(node.rightChild, stack);
+                return node;
+            }
+        };
+    }
+    
+    
 
 }

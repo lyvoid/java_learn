@@ -2,7 +2,12 @@ package yang;
 
 import java.util.LinkedList;
 import java.util.Queue;
-
+/**
+ * 
+ * @author yang
+ *
+ * @param <T>
+ */
 public class BinTreeLearn<T> {
 
     public static void main(String[] args) {

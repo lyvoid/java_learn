@@ -4,6 +4,13 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Function;
 
+/**
+ * 
+ * @author yang
+ *
+ * @param <K>
+ * @param <V>
+ */
 public class BinTree<K, V> implements IBinTree<K, V> {
 
     private BinNode<K, V> root;
@@ -45,7 +52,8 @@ public class BinTree<K, V> implements IBinTree<K, V> {
 
     @Override
     public boolean remove(K key) {
-        if (removeAt(searchNode(key)) == null)return false;
+        if (removeAt(searchNode(key)) == null)
+            return false;
         return true;
     }
 
@@ -68,7 +76,7 @@ public class BinTree<K, V> implements IBinTree<K, V> {
 
     private BinNode<K, V> succ(BinNode<K, V> node) {
         node = node.rightChild;
-        while (node.leftChild != null){
+        while (node.leftChild != null) {
             node = node.leftChild;
         }
         return node;
@@ -84,21 +92,21 @@ public class BinTree<K, V> implements IBinTree<K, V> {
     }
 
     private void moveUp(BinNode<K, V> parent, BinNode<K, V> node) {
-        if (parent.parent != null){
-            if (parent.parent.leftChild == parent){
+        if (parent.parent != null) {
+            if (parent.parent.leftChild == parent) {
                 parent.parent.leftChild = node;
             }
-            if (parent.parent.rightChild == parent){
+            if (parent.parent.rightChild == parent) {
                 parent.parent.rightChild = node;
             }
-        }else{
-                root = node;
+        } else {
+            root = node;
         }
-        if (node != null && node!=root){
+        if (node != null && node != root) {
             node.parent = parent.parent;
             node.leftChild = parent.leftChild;
             node.rightChild = parent.rightChild;
-        }  
+        }
     }
 
     private BinNode<K, V> searchNode(K key) {
