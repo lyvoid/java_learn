@@ -13,6 +13,7 @@ public class BinNode<K, V> {
     public BinNode<K, V> leftChild;
     public BinNode<K, V> rightChild;
     public BinNode<K, V> parent;
+    public int height;
 
     public BinNode() {
 

@@ -11,8 +11,8 @@ import java.util.function.Function;
  * @param <V>
  */
 public class BST<K extends Comparable<K>, V> implements IBinTree<K, V>, Iterable<BinNode<K, V>> {
-    private BinNode<K, V> root;
-    private BinNode<K, V> hot;
+    protected BinNode<K, V> root;
+    protected BinNode<K, V> hot;
 
     public BST() {
         root = new BinNode<>();
@@ -32,10 +32,10 @@ public class BST<K extends Comparable<K>, V> implements IBinTree<K, V>, Iterable
      * @param key
      * @return return node if key input find in the tree,else return null
      */
-    private BinNode<K, V> searchNode(K key) {
+    protected BinNode<K, V> searchNode(K key) {
         hot = root;
         BinNode<K, V> currentNode = root.leftChild;
-        while (currentNode != null) {
+        while (currentNode != null && currentNode.key != null) {
             if (key.compareTo(currentNode.key) == 0)
                 return currentNode;
             hot = currentNode;
@@ -59,7 +59,7 @@ public class BST<K extends Comparable<K>, V> implements IBinTree<K, V>, Iterable
         return false;
     }
 
-    private void insertAt(BinNode<K, V> node, K key, V value) {
+    protected void insertAt(BinNode<K, V> node, K key, V value) {
         if (node == root) {
             node.leftChild = new BinNode<>(key, value);
             node.leftChild.parent = root;
@@ -85,8 +85,8 @@ public class BST<K extends Comparable<K>, V> implements IBinTree<K, V>, Iterable
         remove(node);
         return true;
     }
-    
-    private void remove(BinNode<K, V> node){
+
+    protected void remove(BinNode<K, V> node) {
         if (node.leftChild == null) {
             // if node only have a right child(include null)
             replaceParent(node, node.rightChild);
@@ -101,7 +101,7 @@ public class BST<K extends Comparable<K>, V> implements IBinTree<K, V>, Iterable
         }
     }
 
-    private void exchange(BinNode<K, V> node1, BinNode<K, V> node2) {
+    protected void exchange(BinNode<K, V> node1, BinNode<K, V> node2) {
         K keyTmp = node1.key;
         V valueTmp = node1.value;
         node1.key = node2.key;
@@ -116,7 +116,7 @@ public class BST<K extends Comparable<K>, V> implements IBinTree<K, V>, Iterable
      * @param parent
      * @param child
      */
-    private void replaceParent(BinNode<K, V> parent, BinNode<K, V> child) {
+    protected void replaceParent(BinNode<K, V> parent, BinNode<K, V> child) {
         if (parent.parent.leftChild == parent) {
             parent.parent.leftChild = child;
         } else if (parent.parent.rightChild == parent) {
@@ -131,9 +131,9 @@ public class BST<K extends Comparable<K>, V> implements IBinTree<K, V>, Iterable
      * @param node
      * @return immediate successor of node
      */
-    private BinNode<K, V> succeed(BinNode<K, V> node) {
+    protected BinNode<K, V> succeed(BinNode<K, V> node) {
         node = node.rightChild;
-        while (node.leftChild != null)
+        while (node.leftChild != null && node.leftChild.key != null)
             node = node.leftChild;
         return node;
 
@@ -154,7 +154,7 @@ public class BST<K extends Comparable<K>, V> implements IBinTree<K, V>, Iterable
     // midTravel(root.rightChild, visit);
     // }
 
-    private void midTravelByIter(BinNode<K, V> root, Function<BinNode<K, V>, Boolean> visit) {
+    protected void midTravelByIter(BinNode<K, V> root, Function<BinNode<K, V>, Boolean> visit) {
         BinNode<K, V> currentNode = root;
         Stack<BinNode<K, V>> stack = new Stack<>();
         while (true) {
@@ -166,9 +166,9 @@ public class BST<K extends Comparable<K>, V> implements IBinTree<K, V>, Iterable
         }
     }
 
-    private void leftStack(BinNode<K, V> node, Stack<BinNode<K, V>> stack) {
+    protected void leftStack(BinNode<K, V> node, Stack<BinNode<K, V>> stack) {
         BinNode<K, V> currentNode = node;
-        while (currentNode != null) {
+        while (currentNode != null && currentNode.key != null) {
             stack.push(currentNode);
             currentNode = currentNode.leftChild;
         }
@@ -176,14 +176,14 @@ public class BST<K extends Comparable<K>, V> implements IBinTree<K, V>, Iterable
 
     @Override
     public Iterator<BinNode<K, V>> iterator() {
-        return new Iterator<BinNode<K,V>>() {
+        return new Iterator<BinNode<K, V>>() {
 
             Stack<BinNode<K, V>> stack = new Stack<>();
             BinNode<K, V> currentNode = root.leftChild;
             {
                 leftStack(currentNode, stack);
             }
-            
+
             @Override
             public boolean hasNext() {
                 if (stack.isEmpty())
@@ -199,7 +199,15 @@ public class BST<K extends Comparable<K>, V> implements IBinTree<K, V>, Iterable
             }
         };
     }
-    
-    
+
+    protected boolean isLeftChild(BinNode<K, V> node) {
+        if (node == node.parent.leftChild)
+            return true;
+        return false;
+    }
+
+    protected boolean isRightChild(BinNode<K, V> node) {
+        return !isLeftChild(node);
+    }
 
 }
