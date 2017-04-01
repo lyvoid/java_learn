@@ -11,6 +11,9 @@ public class StringMatch {
 
     public static int KMPMatch(String t, String s, int start, int end) {
         int[] table = KMPTable(t);
+        for (int i : table) {
+            System.out.println(String.format("-%s", i));
+        }
         for (int i = start, j = 0; i < end - start;) {
             if (j < 0 || t.charAt(j) == s.charAt(i)) {
                 i++;
@@ -25,11 +28,27 @@ public class StringMatch {
     }
 
     private static int[] KMPTable(String t) {
-        int[] table = new int[t.length()];
+        int size = t.length();
+        int[] table = new int[size];
         table[0] = -1;
-        for (int i = 1; i < t.length(); i++) {
-            if (t.charAt(i) == t.charAt(table[i-1] + 1)){
-                table[i] = 
+        int j = 0;
+        int k = -1;
+        while (j < size - 1) {
+            if (k < 0 || t.charAt(j) == t.charAt(k)) {
+                table[++j] = ++k;
+            } else {
+                k = table[k];
+            }
+        }
+        int count = 0;
+        for (int i = size - 1; i > 0; i--) {
+            if (t.charAt(i) == t.charAt(i - 1)){
+                count++;
+            }
+            if (i == 1 || !(t.charAt(i) == t.charAt(i - 1))) {
+                if (table[i + count - 1] > i - 1)
+                    table[i + count - 1] = i - 1;
+                count = 0;
             }
         }
         return table;
